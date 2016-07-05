@@ -52,8 +52,8 @@ class Jasper(object):
 
         # FIXME: For backwards compatibility, move old config file to newly
         #        created config dir
-        old_configfile = os.path.join(jasperpath.LIB_PATH, 'profile.yml')
-        new_configfile = jasperpath.config('profile.yml')
+        old_configfile = os.path.join(jasperpath.LIB_PATH, 'configs.yml')
+        new_configfile = jasperpath.config('configs.yml')
         if os.path.exists(old_configfile):
             if os.path.exists(new_configfile):
                 self._logger.warning("Deprecated profile file found: '%s'. " +
@@ -114,7 +114,8 @@ class Jasper(object):
             salutation = "How can I be of service?"
         self.mic.say(salutation)
 
-        conversation = Conversation("JASPER", self.mic, self.config)
+        conversation = Conversation() #"JASPER", self.mic, self.config)
+        conversation.setProfile("JASPER", self.mic, self.config)
         conversation.handleForever()
 
 if __name__ == "__main__":

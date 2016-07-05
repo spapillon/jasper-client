@@ -3,10 +3,18 @@ import logging
 from notifier import Notifier
 from brain import Brain
 
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
 
 class Conversation(object):
+    __metaclass__ = Singleton
 
-    def __init__(self, persona, mic, profile):
+    def setProfile(self, persona, mic, profile): 
         self._logger = logging.getLogger(__name__)
         self.persona = persona
         self.mic = mic
