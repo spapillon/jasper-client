@@ -9,29 +9,40 @@ class TaskManager(object):
     __metaclass__ = Singleton
     _tasks = []
     _cycle = None
-    def getTasks(self):
-        return self._task
+    _current_task = None
+
+    def createTask(self, name):
+        task = Task(name)
+        self.addTask(task)
 
     def addTask(self, task):
         if isinstance(task, Task):
-            self._tasks.append(task)
+            self._tasks.insert(0, task)
             self._cycle = cycle(self._tasks)
+            self.nextTask()
         else:
             print("Tried to append a non Task Object")
 
-    def closeTask(self, task):
-        if task not in self._tasks:
-            print("Tried to close a task that is not in the Manager")
-            return
-        task.close()
-        self._tasks.remove(task)
-        self._cycle = cycle(self._tasks)
+    def closeTask(self):
+        if self._current_task != None:
+            self._current_task.close()
+            self._tasks.remove(self._current_task)
+            self._cycle = cycle(self._tasks)
+            self.nextTask()
 
     def nextTask(self):
-        return self._cycle.next()
+        if len(self._tasks) > 0:
+            self._current_task = self._cycle.next()
+            self._current_task.focus()
+        else:
+            self._current_task = None
 
     def findTask(self, name):
         for task in self._tasks:
-            if task.name == name:
-                return task
-        return None
+            if task.getName() == name:
+                self._current_task = task
+                self._current_task.focus()
+
+    def executeTask(self, command):
+        self._current_task.execute(command)
+
