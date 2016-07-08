@@ -48,7 +48,7 @@ class Mic:
 
         # TODO: Consolidate variables from the next three functions
         THRESHOLD_MULTIPLIER = 1.8
-        RATE = 16000
+        RATE = 48000
         CHUNK = 1024
 
         # number of seconds to allow to establish threshold
@@ -58,6 +58,7 @@ class Mic:
         stream = self._audio.open(format=pyaudio.paInt16,
                                   channels=1,
                                   rate=RATE,
+                                  input_device_index = 2,
                                   input=True,
                                   frames_per_buffer=CHUNK)
 
@@ -93,7 +94,7 @@ class Mic:
         """
 
         THRESHOLD_MULTIPLIER = 1.8
-        RATE = 16000
+        RATE = 48000
         CHUNK = 1024
 
         # number of seconds to allow to establish threshold
@@ -105,6 +106,7 @@ class Mic:
         # prepare recording stream
         stream = self._audio.open(format=pyaudio.paInt16,
                                   channels=1,
+                                  input_device_index = 2,
                                   rate=RATE,
                                   input=True,
                                   frames_per_buffer=CHUNK)
@@ -202,7 +204,7 @@ class Mic:
             Returns a list of the matching options or None
         """
 
-        RATE = 16000
+        RATE = 48000
         CHUNK = 1024
         LISTEN_TIME = 12
 
@@ -216,6 +218,7 @@ class Mic:
         stream = self._audio.open(format=pyaudio.paInt16,
                                   channels=1,
                                   rate=RATE,
+                                  input_device_index = 2,
                                   input=True,
                                   frames_per_buffer=CHUNK)
 
