@@ -6,13 +6,14 @@ from client import jasperpath
 from client.conversation import Conversation
 
 
-WORDS = ["LOG", "IN", "OUT", "EXIT", "SIGN", "OFF", "BYE"] 
+WORDS = ["LOG", "IN", "OUT", "EXIT", "SIGN", "OFF", "BYE","LOGIN"] 
 
 
 def handle(text, mic, profile):
-	match = re.search('(?<=login ).*', text)
+	match = re.search('(?<=login ).*', text, re.IGNORECASE)
 	if match is not None:
-		user = match.group()
+		user = match.group().lower()
+                print user
 		new_configfile = jasperpath.config(user + '.yml')
 		if os.path.exists(new_configfile):
 			with open(new_configfile, "r") as f:
@@ -30,4 +31,4 @@ def handle(text, mic, profile):
 		conversation.setProfile("JASPER", mic, config)
 		mic.say("Bye" + profile['first_name'])
 def isValid(text):
-	return bool(re.search(r'(login|logout)', text, re.IGNORECASE))
+	return bool(re.search('(login|logout)', text, re.IGNORECASE))

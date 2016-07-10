@@ -3,7 +3,7 @@ import logging
 from notifier import Notifier
 from brain import Brain
 from singleton import Singleton
-
+import time
 class Conversation(object):
     __metaclass__ = Singleton
 
@@ -43,7 +43,6 @@ class Conversation(object):
             input = self.mic.activeListenToAllOptions(threshold)
             self._logger.debug("Stopped to listen actively with threshold: %r",
                                threshold)
-
             if input:
                 self.brain.query(input)
             else:
